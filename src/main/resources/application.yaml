@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sistema-asistencia-personal
+
+  profiles:
+    active: dev
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+server:
+  port: 8080
