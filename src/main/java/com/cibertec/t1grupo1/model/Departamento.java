@@ -22,6 +22,10 @@ public class Departamento {
     @Column(nullable = false, length = 60)
     private String nombre;
 
-    @OneToMany(mappedBy = "departamento")
+    @OneToMany(
+        mappedBy = "departamento",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY
+    )
     private List<Empleado> empleados = new ArrayList<>();
 }
