@@ -27,3 +27,5 @@ public class Asistencia {
     @Enumerated(EnumType.STRING)
     private EstadoAsistencia estado;
 }
+
+

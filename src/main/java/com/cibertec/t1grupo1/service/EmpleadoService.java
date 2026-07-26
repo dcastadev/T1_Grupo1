@@ -26,6 +26,7 @@ public class EmpleadoService {
         }
     }
 
+
     @Transactional(readOnly = true)
     public void listarConFetch() {
         List<Empleado> empleados = empleadoRepo.findAllConDepartamento(); // 1 sola consulta con JOIN
