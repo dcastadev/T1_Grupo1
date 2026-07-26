@@ -33,3 +33,5 @@ public class Asistencia {
     @Column(nullable = false)
     private EstadoAsistencia estado;
 }
+
+
