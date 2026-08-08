@@ -1,0 +1,22 @@
+info:
+  name: Contraseña Incorrecta
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: http://localhost:8080/auth/login
+  body:
+    type: json
+    data: |-
+      {
+        "usuario": "atorres",
+        "password": "claveMala"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

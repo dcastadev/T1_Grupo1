@@ -33,4 +33,13 @@ public class GlobalExceptionHandler {
         body.put("detalles", errores);
         return ResponseEntity.badRequest().body(body);
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> handleEstadoInvalido(IllegalStateException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("error", "Solicitud invalida");
+        body.put("mensaje", ex.getMessage());
+        return ResponseEntity.badRequest().body(body);
+    }
 }

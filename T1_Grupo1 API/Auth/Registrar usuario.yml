@@ -1,0 +1,27 @@
+info:
+  name: Registrar usuario
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:8080/auth/register
+  body:
+    type: json
+    data: |-
+      {
+           "nombres": "Ana",
+           "apellidos": "Torres",
+           "dni": "87654321",
+           "email": "ana@empresa.com",
+           "usuario": "atorres",
+           "password": "123456",
+           "rol": "RRHH"
+         }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
