@@ -1,6 +1,8 @@
 package com.cibertec.t1grupo1.dto;
 
+import com.cibertec.t1grupo1.model.Rol;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record RegistroDTO(
@@ -23,7 +25,7 @@ public record RegistroDTO(
         @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
         String password,
 
-        @NotBlank(message = "El rol es obligatorio")
-        String rol
+        @NotNull(message = "El rol es obligatorio")
+        Rol rol
 ) {
 }

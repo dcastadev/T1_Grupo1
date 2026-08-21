@@ -1,22 +1,22 @@
 info:
-  name: Registrar usuario
+  name: Registrar Admin
   type: http
-  seq: 1
+  seq: 5
 
 http:
   method: POST
   url: http://localhost:8080/auth/register
   body:
     type: json
-    data: |-
-      {
+    data: |2-
+         {
            "nombres": "Ana",
            "apellidos": "Torres",
-           "dni": "87654321",
+           "dni": "99998888",
            "email": "ana@empresa.com",
-           "usuario": "atorres",
+           "usuario": "admin1",
            "password": "123456",
-           "rol": "EMPLEADO"
+           "rol": "ADMIN"
          }
   auth: inherit
 

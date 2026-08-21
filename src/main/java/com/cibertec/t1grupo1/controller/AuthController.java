@@ -2,6 +2,7 @@ package com.cibertec.t1grupo1.controller;
 
 import com.cibertec.t1grupo1.dto.AdministradorDTO;
 import com.cibertec.t1grupo1.dto.LoginDTO;
+import com.cibertec.t1grupo1.dto.LoginResponseDTO;
 import com.cibertec.t1grupo1.dto.RegistroDTO;
 import com.cibertec.t1grupo1.service.AdministradorService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AdministradorDTO login(@Valid @RequestBody LoginDTO dto) {
+    public LoginResponseDTO login(@Valid @RequestBody LoginDTO dto) {
         return administradorService.loginSeguro(dto);
     }
 }

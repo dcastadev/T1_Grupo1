@@ -2,6 +2,8 @@ package com.cibertec.t1grupo1.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class Administrador extends Persona {
     @Column(nullable = false, length = 120)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String rol;
+    private Rol rol;
 }

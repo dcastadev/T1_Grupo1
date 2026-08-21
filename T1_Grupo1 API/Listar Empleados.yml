@@ -1,0 +1,17 @@
+info:
+  name: Listar Empleados
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: http://localhost:8080/empleados
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlhdCI6MTc4NzM0NDg0OSwiZXhwIjoxNzg3MzQ4NDQ5fQ.lyMNrh-6lTO3L5Ca444Ek2S6EhCBx3-aZJ5r_H9l3YknNOjjPq_2cRSWp0ockb6a
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
