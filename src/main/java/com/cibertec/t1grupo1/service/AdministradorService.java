@@ -2,32 +2,35 @@ package com.cibertec.t1grupo1.service;
 
 import com.cibertec.t1grupo1.dto.AdministradorDTO;
 import com.cibertec.t1grupo1.dto.LoginDTO;
+import com.cibertec.t1grupo1.dto.LoginResponseDTO;
 import com.cibertec.t1grupo1.dto.RegistroDTO;
 import com.cibertec.t1grupo1.exception.RecursoNoEncontradoException;
 import com.cibertec.t1grupo1.model.Administrador;
 import com.cibertec.t1grupo1.repository.AdministradorRepository;
+import com.cibertec.t1grupo1.security.JwtService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AdministradorService {
 
     private final AdministradorRepository administradorRepository;
+    private final JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public AdministradorService(AdministradorRepository administradorRepository) {
+    public AdministradorService(AdministradorRepository administradorRepository, JwtService jwtService) {
         this.administradorRepository = administradorRepository;
+        this.jwtService = jwtService;
     }
 
-    // Metodo original de T1, se mantiene igual para no romper lo ya sustentado
+    // Metodo original de T1 - se mantiene para no romper nada anterior
     public boolean login(String usuario, String password) {
-        return administradorRepository
-                .findByUsuarioAndPassword(usuario, password)
-                .isPresent();
+        return administradorRepository.findByUsuarioAndPassword(usuario, password).isPresent();
     }
 
-    // NUEVO para T2: registro con password encriptado
     @Transactional
     public AdministradorDTO registrar(RegistroDTO dto) {
         if (administradorRepository.findByUsuario(dto.usuario()).isPresent()) {
@@ -43,12 +46,11 @@ public class AdministradorService {
         admin.setPassword(passwordEncoder.encode(dto.password()));
         admin.setRol(dto.rol());
 
-        Administrador guardado = administradorRepository.save(admin);
-        return toDTO(guardado);
+        return toDTO(administradorRepository.save(admin));
     }
 
-    // NUEVO para T2: login validando el hash
-    public AdministradorDTO loginSeguro(LoginDTO dto) {
+    // NUEVO: login que genera JWT firmado con HMAC-SHA256
+    public LoginResponseDTO loginSeguro(LoginDTO dto) {
         Administrador admin = administradorRepository.findByUsuario(dto.usuario())
                 .orElseThrow(() -> new RecursoNoEncontradoException("Usuario o contraseña incorrectos"));
 
@@ -56,16 +58,22 @@ public class AdministradorService {
             throw new RecursoNoEncontradoException("Usuario o contraseña incorrectos");
         }
 
-        return toDTO(admin);
+        String rolConPrefijo = "ROLE_" + admin.getRol().name();
+        String token = jwtService.generarToken(admin.getUsuario(), List.of(rolConPrefijo));
+
+        return new LoginResponseDTO(
+                token,
+                "Bearer",
+                jwtService.getExpirationMs(),
+                admin.getUsuario(),
+                List.of(rolConPrefijo)
+        );
     }
 
     private AdministradorDTO toDTO(Administrador admin) {
         return new AdministradorDTO(
-                admin.getId(),
-                admin.getNombres(),
-                admin.getApellidos(),
-                admin.getUsuario(),
-                admin.getRol()
+                admin.getId(), admin.getNombres(), admin.getApellidos(),
+                admin.getUsuario(), admin.getRol()
         );
     }
 }
